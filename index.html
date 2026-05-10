@@ -9,10 +9,10 @@
         body { 
             margin: 0; background: #000; 
             display: flex; align-items: center; justify-content: center; 
-            min-height: 100vh; overflow: hidden; font-family: 'Segoe UI', sans-serif; 
+            min-height: 100vh; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         }
 
-        /* 1. Mosaico VIVO (Fotos nítidas e claras) */
+        /* 1. Mosaico VIVO */
         .mosaico-container { position: absolute; width: 100%; height: 100%; overflow: hidden; }
         
         .spotlight {
@@ -25,73 +25,91 @@
         .mosaico {
             position: absolute; width: 100%; height: 100%;
             display: grid; grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
-            opacity: 0.8; z-index: 1;
+            opacity: 0.6; z-index: 1;
         }
         .mosaico img { 
             width: 100%; height: 100%; object-fit: cover; 
-            filter: brightness(1.1) contrast(1.1);
-            animation: kenBurns 18s infinite alternate ease-in-out;
+            filter: brightness(0.9) contrast(1.1);
+            animation: kenBurns 20s infinite alternate ease-in-out;
+            transition: all 0.5s ease;
         }
         
         @keyframes rotateSpotlight { to { transform: rotate(360deg); } }
-        @keyframes kenBurns { from { transform: scale(1); } to { transform: scale(1.1); } }
-        @media (max-width: 600px) { .mosaico { grid-template-columns: repeat(3, 1fr); } }
+        @keyframes kenBurns { from { transform: scale(1); } to { transform: scale(1.15); } }
+        @media (max-width: 600px) { 
+            .mosaico { grid-template-columns: repeat(3, 1fr); }
+            #texto { font-size: 18px !important; padding: 15px !important; width: 90% !important; }
+        }
 
         .overlay { 
             position: absolute; width: 100%; height: 100%; 
-            background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.6) 80%); 
+            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.7) 90%); 
             z-index: 3; 
         }
 
         /* 2. Conteúdo Central */
-        .content { position: relative; z-index: 10; text-align: center; color: white; width: 100%; }
+        .content { position: relative; z-index: 10; text-align: center; color: white; width: 100%; padding: 20px; }
 
         .cake-container {
-            position: relative; width: 200px; margin: 0 auto 30px;
-            animation: levitate 3s infinite ease-in-out, pulse 1.5s infinite;
-            filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.8));
+            position: relative; width: 160px; margin: 0 auto 20px;
+            animation: levitate 3s infinite ease-in-out;
+            cursor: pointer;
+            filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6));
+            user-select: none; 
+            -webkit-user-drag: none;
         }
+        .cake-container:active { transform: scale(0.9) translateY(0); }
 
-        .layer { display: block; background: #ff85a2; border-radius: 10px 10px 4px 4px; position: relative; margin: 0 auto; box-shadow: inset 0 -5px 0 rgba(0,0,0,0.1); }
-        .layer-bottom { width: 160px; height: 60px; background: #f06292; }
-        .layer-middle { width: 120px; height: 45px; background: #f48fb1; margin-top: -5px; }
-        .layer-top { width: 80px; height: 35px; background: #f8bbd0; margin-top: -5px; }
-        .layer::after { content: ""; position: absolute; top: 8px; left: 0; width: 100%; height: 12px; background: #ffffff; border-radius: 20px; opacity: 0.8; }
+        .layer { display: block; background: #ff85a2; border-radius: 8px 8px 4px 4px; position: relative; margin: 0 auto; box-shadow: inset 0 -5px 0 rgba(0,0,0,0.1); }
+        .layer-bottom { width: 140px; height: 50px; background: #f06292; }
+        .layer-middle { width: 100px; height: 40px; background: #f48fb1; margin-top: -5px; }
+        .layer-top { width: 70px; height: 30px; background: #f8bbd0; margin-top: -5px; }
+        
+        .candle { width: 6px; height: 25px; background: repeating-linear-gradient(45deg, #fff, #fff 4px, #ff4d6d 4px, #ff4d6d 8px); margin: -20px auto 0; border-radius: 4px; position: relative; z-index: 1; }
+        .flame { width: 10px; height: 18px; background: #ff9800; border-radius: 50% 50% 20% 20%; position: absolute; top: -15px; left: -2px; animation: flicker 0.1s infinite alternate; box-shadow: 0 0 15px #ff9800; }
 
-        .candle { width: 8px; height: 30px; background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff4d6d 5px, #ff4d6d 10px); margin: -25px auto 0; border-radius: 4px; position: relative; }
-        .flame { width: 12px; height: 20px; background: #ff9800; border-radius: 50% 50% 20% 20%; position: absolute; top: -18px; left: -2px; animation: flicker 0.1s infinite alternate; box-shadow: 0 0 15px #ff9800; }
-
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
-        @keyframes flicker { from { transform: scale(1); } to { transform: scale(1.2); } }
-        @keyframes levitate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes flicker { from { transform: scale(1); opacity: 0.8; } to { transform: scale(1.2); opacity: 1; } }
+        @keyframes levitate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         #texto { 
-            font-size: 22px; font-weight: bold; padding: 25px; 
-            text-shadow: 2px 2px 10px rgba(0,0,0,1); 
-            max-width: 800px; margin: 0 auto; line-height: 1.4;
-            background: rgba(0, 0, 0, 0.45); border-radius: 20px;
-            backdrop-filter: blur(3px);
+            font-size: 20px; font-weight: 500; padding: 25px; 
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.8); 
+            max-width: 700px; margin: 0 auto; line-height: 1.5;
+            background: rgba(0, 0, 0, 0.55); border-radius: 20px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* 3. Animações de Festa */
         .particle { position: absolute; pointer-events: none; z-index: 5; animation: fallAndRotate linear forwards; }
         @keyframes fallAndRotate { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
-        .confete { position: absolute; width: 10px; height: 10px; z-index: 15; animation: explode 2.5s ease-out forwards; }
-        @keyframes explode { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) rotate(720deg) scale(0); opacity: 0; } }
+        /* Estilo dos Corações da Explosão */
+        .heart-explosion {
+            position: absolute;
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 15;
+            animation: explodeHeart 2s ease-out forwards;
+        }
+
+        @keyframes explodeHeart {
+            0% { transform: translate(0,0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0) rotate(var(--dr)); opacity: 0; }
+        }
 
         .magic-heart { 
-            position: absolute; width: 15px; height: 15px; background: #ff69b4; 
+            position: absolute; width: 12px; height: 12px; background: #ff69b4; 
             transform: rotate(-45deg); animation: orbitHeart 6s infinite linear; z-index: 9;
-            box-shadow: 0 0 10px #ff69b4;
+            box-shadow: 0 0 8px #ff69b4;
         }
-        .magic-heart::after, .magic-heart::before { content: ''; position: absolute; width: 15px; height: 15px; background: #ff69b4; border-radius: 50%; }
-        .magic-heart::after { top: -8px; left: 0; }
-        .magic-heart::before { top: 0; left: 8px; }
+        .magic-heart::after, .magic-heart::before { content: ''; position: absolute; width: 12px; height: 12px; background: inherit; border-radius: 50%; }
+        .magic-heart::after { top: -6px; left: 0; }
+        .magic-heart::before { top: 0; left: 6px; }
 
         @keyframes orbitHeart { 
-            0% { transform: rotate(0deg) translateX(110px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(110px) rotate(-360deg); }
+            0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
         }
     </style>
 </head>
@@ -103,7 +121,7 @@
     <div class="overlay"></div>
 
     <div class="content">
-        <div class="cake-container">
+        <div class="cake-container" onclick="explodirCoracoesDoBolo(50)">
             <div class="candle"><div class="flame"></div></div>
             <div class="layer layer-top"></div>
             <div class="layer layer-middle"></div>
@@ -131,36 +149,65 @@
             "PHOTO-2026-05-09-21-15-58 2.jpg"
         ];
 
-        fotos.forEach(nome => {
+        const totalEspacos = 30;
+        for(let i=0; i<totalEspacos; i++) {
+            const nome = fotos[i % fotos.length];
             const img = document.createElement('img');
             img.src = nome;
             img.onerror = () => img.remove();
             container.appendChild(img);
-        });
+        }
 
-        const msg = "Feliz Aniversário, meu amor! ❤️\n\nNeste dia tão especial, quero que você se sinta muito amada, porque você é uma namorada maravilhosa e uma pessoinha incrível. Espero conseguir te fazer tão feliz quanto você me faz, porque eu me sinto a pessoa mais sortuda do mundo por ter você ao meu lado, meu amor. Queria conseguir fazer esse dia ainda mais especial para aproveitarmos cada segundo juntos, porque você merece o universo todinho, minha garotinha. 🫶🏼\n\nEu sei que talvez não esteja sendo exatamente do jeito que você queria, mas prometo que, nos próximos aniversários, vou dar o meu máximo para fazer tudo da melhor forma possível para a pessoa incrível que você é e que merece tanto.\n\nEu te amo muuuuuuuiiiiittooooo! ❤️🎂";
+        const msg = "Feliz Aniversário, meu amor! ❤️\n\nNeste dia tão especial, quero que você se sinta muito amada, porque você é uma namorada maravilhosa e uma pessoinha incrível. Espero conseguir te fazer tão feliz quanto você me faz, porque eu me sinto a pessoa mais sortuda do mundo por ter você ao meu lado, meu amor.\n\nQueria conseguir fazer esse dia ainda mais especial para aproveitarmos cada segundo juntos, porque você merece o universo todinho, minha garotinha. 🫶🏼\n\nEu sei que talvez não esteja sendo exatamente do jeito que você queria, mas prometo que, nos próximos aniversários, vou dar o meu máximo para fazer tudo da melhor forma possível.\n\nEu te amo muuuuuuuiiiiittooooo! ❤️🎂";
         
         let charIndex = 0;
         function escrever() {
             if (charIndex < msg.length) {
-                document.getElementById('texto').innerHTML += msg.charAt(charIndex) === "\n" ? "<br>" : msg.charAt(charIndex);
+                const alvo = document.getElementById('texto');
+                alvo.innerHTML += msg.charAt(charIndex) === "\n" ? "<br>" : msg.charAt(charIndex);
                 charIndex++;
-                setTimeout(escrever, 50);
+                setTimeout(escrever, 45);
             } else {
-                setInterval(() => soltarConfetes(Math.random()*100, Math.random()*100, 15), 3000);
+                setInterval(() => explodirCoracoesAleatorios(10), 3000);
             }
         }
 
-        function soltarConfetes(x, y, qtd) {
+        function explodirCoracoesDoBolo(qtd) {
+            const bolo = document.querySelector('.cake-container');
+            const rect = bolo.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const cores = ['❤️', '💖', '💗', '💓', '💕', '❣'];
+
             for (let i = 0; i < qtd; i++) {
-                const c = document.createElement('div');
-                c.classList.add('confete');
-                c.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`;
-                c.style.left = x + '%'; c.style.top = y + '%';
-                c.style.setProperty('--dx', (Math.random() - 0.5) * 600 + 'px');
-                c.style.setProperty('--dy', (Math.random() - 0.5) * 600 + 'px');
-                document.body.appendChild(c);
-                setTimeout(() => c.remove(), 2500);
+                const h = document.createElement('div');
+                h.classList.add('heart-explosion');
+                h.innerHTML = cores[Math.floor(Math.random() * cores.length)];
+                h.style.left = centerX + 'px'; 
+                h.style.top = centerY + 'px';
+                h.style.setProperty('--dx', (Math.random() - 0.5) * 700 + 'px');
+                h.style.setProperty('--dy', (Math.random() - 0.5) * 700 + 'px');
+                h.style.setProperty('--dr', (Math.random() * 720) + 'deg');
+                h.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 2000);
+            }
+        }
+
+        function explodirCoracoesAleatorios(qtd) {
+            const cores = ['❤️', '💖', '💗', '💓', '💕'];
+            for (let i = 0; i < qtd; i++) {
+                const h = document.createElement('div');
+                h.classList.add('heart-explosion');
+                h.innerHTML = cores[Math.floor(Math.random() * cores.length)];
+                h.style.left = Math.random() * 100 + 'vw'; 
+                h.style.top = Math.random() * 100 + 'vh';
+                h.style.setProperty('--dx', (Math.random() - 0.5) * 300 + 'px');
+                h.style.setProperty('--dy', (Math.random() - 0.5) * 300 + 'px');
+                h.style.setProperty('--dr', (Math.random() * 360) + 'deg');
+                h.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 2000);
             }
         }
 
@@ -170,17 +217,17 @@
             const icons = ['❤️', '✨', '💖', '🎈', '💕', '⭐', '🎉'];
             p.innerHTML = icons[Math.floor(Math.random() * icons.length)];
             p.style.left = Math.random() * 100 + 'vw';
-            p.style.fontSize = Math.random() * 20 + 15 + 'px';
+            p.style.fontSize = Math.random() * 15 + 15 + 'px';
             p.style.animationDuration = (Math.random() * 3 + 4) + 's';
             if(['✨','⭐'].includes(p.innerHTML)) p.style.color = '#ffd700';
             document.body.appendChild(p);
-            setTimeout(() => p.remove(), 7000);
+            setTimeout(() => p.remove(), 6000);
         }
 
         window.onload = () => {
             escrever();
-            soltarConfetes(50, 40, 70);
-            setInterval(createParticle, 200);
+            explodirCoracoesDoBolo(40);
+            setInterval(createParticle, 300);
         };
     </script>
 </body>
